@@ -1,17 +1,19 @@
 class Trade:    
-    def __init__ (self, ticker, price, quant, buyOrder, sellOrder):
+    def __init__ (self, ticker, price, quant, buyOrder, sellOrder, status):
         self.ticker = ticker
         self.price = price
         self.quant = quant
         self.buyOrder = buyOrder
         self.sellOrder = sellOrder
+        self.status = status
 
-    def update (self, ticker, price, quant, buyOrder, sellOrder):
+    def update (self, ticker, price, quant, buyOrder, sellOrder, status):
         self.ticker = ticker
         self.price = price
         self.quant = quant
         self.buyOrder = buyOrder
         self.sellOrder = sellOrder
+        self.status = status
         
     @property
     def ticker(self):

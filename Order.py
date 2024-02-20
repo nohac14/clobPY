@@ -1,18 +1,19 @@
+import Scraper
 class Order:
-    def __init__ (self, ticker, trader, side, limit, quant, filledQuant, status):
+    def __init__ (self, ticker, trader, side, quant, filledQuant, status):
         self.ticker = ticker
         self.trader = trader
         self.side = side
-        self.limit = limit
+        self.limit = Scraper.get_stock_price(ticker)
         self.quant = quant
         self.filledQuant = filledQuant
         self.status = status
     
-    def update(self, ticker, trader, side, limit, quant, filledQuant, status):
+    def update(self, ticker, trader, side, quant, filledQuant, status):
         self.ticker = ticker
         self.trader = trader
         self.side = side
-        self.limit = limit
+        self.limit = Scraper.get_stock_price(ticker)
         self.quant = quant
         self.filledQuant = filledQuant
         self.status = status
@@ -27,21 +28,21 @@ class Order:
     @property
     def trader(self):
         return self._trader
-    @price.setter
+    @trader.setter
     def trader(self, value):
         self._trader = value
         
     @property
     def side(self):
         return self._side
-    @price.setter
+    @side.setter
     def side(self, value):
         self._side = value
     
     @property
     def limit(self):
         return self._limit
-    @price.setter
+    @limit.setter
     def limit(self, value):
         self._limit = value
     
@@ -66,10 +67,13 @@ class Order:
     def status(self, value):
         self._status = value
         
-    def printOrder():
+    def printOrder(sideString):
         sideString = 'buy' if Order.side == True else "sell"
         underline = '\033[4m'
         end = '\033[0m'
         print(underline + '| ticker | trader  | side | limit  | quantity | filledQty | status |' + end)
         print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (Order.ticker, Order.trader, sideString, Order.limit, Order.quant, Order.filledQuant, Order.status))
     
+    def printAnotherOrder(sideString):
+        sideString = 'buy' if Order.side == True else "sell"
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (Order.ticker, Order.trader, sideString, Order.limit, Order.quant, Order.filledQuant, Order.status))
