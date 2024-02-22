@@ -67,13 +67,14 @@ class Order:
     def status(self, value):
         self._status = value
         
-    def printOrder(sideString):
-        sideString = 'buy' if Order.side == True else "sell"
+    def printOrder(self):
+        self.side = 'buy' if Order.side == True else "sell"
         underline = '\033[4m'
         end = '\033[0m'
         print(underline + '| ticker | trader  | side | limit  | quantity | filledQty | status |' + end)
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (Order.ticker, Order.trader, sideString, Order.limit, Order.quant, Order.filledQuant, Order.status))
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
     
-    def printAnotherOrder(sideString):
-        sideString = 'buy' if Order.side == True else "sell"
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (Order.ticker, Order.trader, sideString, Order.limit, Order.quant, Order.filledQuant, Order.status))
+    def printAnotherOrder(self):
+        self.side = 'buy' if Order.side == True else "sell"
+        print('--------------------------------------------------------------------')
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
