@@ -57,6 +57,24 @@ def printTest():
     )
     order3.printAnotherOrder()
     
+def scenario1():
+    print("username: ", end="")
+    trader = Trader(input())
+    
+    clear()
+    order = Order(
+        Ticker('TW'),
+        trader.username,
+        'buy',
+        100,
+        0,
+        'OPEN'
+    )
+    order.printOrder()
+    
+def scenario2():
+    print('balls')
+    
 def isMatch(order1, order2):
     if ((order1.trader == order2.trader) or (order1.side == order2.side)):
         return False
@@ -79,3 +97,5 @@ def priceMatch(orderS, orderB):
         return True
     else:
         return False
+    
+scenario1()
