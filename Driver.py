@@ -79,3 +79,5 @@ def priceMatch(orderS, orderB):
         return True
     else:
         return False
+    
+printTest()
