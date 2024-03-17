@@ -1,8 +1,12 @@
 import os
+from random import seed
+import random
+from random import randint
 from Order import Order
 from Ticker import Ticker
 from Trade import Trade
 from Trader import Trader
+import Scraper
 
 def clear():
     os.system('clear')
@@ -73,11 +77,57 @@ def isMatch(order1, order2):
                 return False
             
 def priceMatch(orderS, orderB):
-    if (((orderS.limit + 1) >= orderB.limit) or ((orderB.limit + 1) >= orderS.limit) or (orderS.limit == orderB.limit)):
+    if (orderS.limit == orderB.limit):
         orderS.status = 'COMPLETED'
         orderB.status = 'COMPLETED'
         return True
     else:
         return False
     
-printTest()
+    
+def populateLists(bOrders, sOrders):
+    numOrders = 10
+    
+    bgcGroup = Ticker('BGC')
+    marketPrice = Scraper.get_stock_price('BGC')
+        
+    i = 0
+    while(i < 10):
+        if (i < 5):
+            bOrders.append(Order(
+                bgcGroup.identifier, 
+                i, 
+                'buy', 
+                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
+                randint(1,100), 
+                0, 
+                'OPEN'
+                ))
+        else:
+            sOrders.append(Order(
+                bgcGroup.identifier, 
+                i, 
+                'sell', 
+                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
+                randint(1,100), 
+                0, 
+                'OPEN'
+                ))
+        i+=1
+
+
+def printheader():
+    print('\n| ticker | trader  | side | limit  | quantity | filledQty | status |')
+    
+
+# main
+
+bOrders = []
+sOrders = []
+populateLists(bOrders, sOrders)
+
+printheader()
+for order in bOrders:
+    order.printAnotherOrder()
+for order in sOrders:
+    order.printAnotherOrder()
