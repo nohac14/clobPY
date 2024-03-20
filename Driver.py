@@ -11,7 +11,7 @@ import Scraper
 def clear():
     os.system('clear')
     
-def printTest():
+def printTest(): # sort of deprecated
     print("username: ", end="")
     trader = Trader(input())
 
@@ -83,30 +83,31 @@ def priceMatch(orderS, orderB):
         return True
     else:
         return False
-    
-    
-def populateLists(bOrders, sOrders):
+      
+def populateLists(ticker, tickerMap): # randomly populates the order lists
+    bOrders = []
+    sOrders = []
     numOrders = 10
     
-    bgcGroup = Ticker('BGC')
-    marketPrice = Scraper.get_stock_price('BGC')
+    company = Ticker(ticker)
+    marketPrice = Scraper.get_stock_price(ticker)
         
     i = 0
     while(i < 10):
         if (i < 5):
             bOrders.append(Order(
-                bgcGroup.identifier, 
-                i, 
+                company.identifier, 
+                randint(100, 1000)+i, 
                 'buy', 
-                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
+                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), # random limit between 10% below and above current stock price
                 randint(1,100), 
                 0, 
                 'OPEN'
                 ))
         else:
             sOrders.append(Order(
-                bgcGroup.identifier, 
-                i, 
+                company.identifier, 
+                randint(100, 1000)+i, 
                 'sell', 
                 random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
                 randint(1,100), 
@@ -114,20 +115,28 @@ def populateLists(bOrders, sOrders):
                 'OPEN'
                 ))
         i+=1
+        
+    tickerMap[ticker] = {'buy' : bOrders, 'sell' : sOrders}
 
-
-def printheader():
+def printOrders(bOrders, sOrders):
     print('\n| ticker | trader  | side | limit  | quantity | filledQty | status |')
-    
+    for order in bOrders:
+        order.printAnotherOrder()
+    for order in sOrders:
+        order.printAnotherOrder()
+
+def printTickOrders(ticker):
+    printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
+
+def findTicker(tickerMap):
+    print('insert ticker: ', end='')
+    ticker = input()
+
+    populateLists(ticker, tickerMap)
+    printTickOrders(ticker)
 
 # main
 
-bOrders = []
-sOrders = []
-populateLists(bOrders, sOrders)
+tickerMap = {}
 
-printheader()
-for order in bOrders:
-    order.printAnotherOrder()
-for order in sOrders:
-    order.printAnotherOrder()
+findTicker(tickerMap)
