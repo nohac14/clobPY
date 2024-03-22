@@ -61,7 +61,7 @@ def printTest(): # sort of deprecated
     )
     order3.printAnotherOrder()
     
-def isMatch(order1, order2):
+def isMatchOld(order1, order2): # sort of deprecated
     if ((order1.trader == order2.trader) or (order1.side == order2.side)):
         return False
     else:
@@ -76,10 +76,13 @@ def isMatch(order1, order2):
             else:
                 return False
             
+def isMatch(orderB, orderS):
+    if ((orderB.trader == orderS.trader) or (orderB.side == orderS.side)): # check if diff trader
+        if ((orderS.quant - orderS.filledQuant) >= (orderB.quant - orderB.filledQuant)): # check if enough quant
+            return priceMatch(orderS, orderB)
+            
 def priceMatch(orderS, orderB):
     if (orderS.limit == orderB.limit):
-        orderS.status = 'COMPLETED'
-        orderB.status = 'COMPLETED'
         return True
     else:
         return False
@@ -128,15 +131,52 @@ def printOrders(bOrders, sOrders):
 def printTickOrders(ticker):
     printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
 
-def findTicker(tickerMap):
+def addTicker(tickerMap):
     print('insert ticker: ', end='')
     ticker = input()
 
     populateLists(ticker, tickerMap)
     printTickOrders(ticker)
 
+def match(bOrders, sOrders):
+    for orderB in bOrders:
+        for orderS in sOrders:
+            if (isMatch(orderB, orderS)):
+                return True
+
 # main
 
 tickerMap = {}
+user = 'y'
 
-findTicker(tickerMap)
+while (user == 'y'):
+    addTicker(tickerMap)
+    print('\nAdd another ticker? ', end='')
+    user = input()
+
+print('ticker orders to be matched: ', end='')
+ticker = input()
+
+bOrders = tickerMap[ticker]['buy']
+sOrders = tickerMap[ticker]['sell']
+
+for orderB in bOrders:
+    for orderS in sOrders:
+        if (isMatch(orderB, orderS)):
+            
+            
+        
+
+# bOrders = [82, 64, 40, 41, 76, 94, 61, 36, 81, 34] 
+# sOrders = [90, 61, 87, 82, 31, 68, 39, 78, 55, 94] # common 94
+
+# bOrdersC = bOrders
+# sOrdersC = sOrders
+
+# for x in bOrdersC:
+#     for y in sOrdersC:
+#         if x == y:
+#             bOrders.remove(x)
+#             sOrders.remove(y)
+# print(bOrders)
+# print(sOrders)
