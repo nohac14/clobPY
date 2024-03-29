@@ -119,6 +119,24 @@ def populateLists(ticker, tickerMap): # randomly populates the order lists
                 ))
         i+=1
         
+    bOrders.append(Order(
+        company.identifier,
+        randint(100,1000)+1,
+        'buy',
+        marketPrice, 
+        50,
+        0,
+        'OPEN'
+    ))
+    sOrders.append(Order(
+        company.identifier,
+        randint(100,1000)+1,
+        'sell',
+        marketPrice, 
+        100,
+        0,
+        'OPEN'
+    ))
     tickerMap[ticker] = {'buy' : bOrders, 'sell' : sOrders}
 
 def printOrders(bOrders, sOrders):
@@ -139,10 +157,28 @@ def addTicker(tickerMap):
     printTickOrders(ticker)
 
 def match(bOrders, sOrders):
+    matches = []
     for orderB in bOrders:
         for orderS in sOrders:
             if (isMatch(orderB, orderS)):
-                return True
+                matches.append((orderB, orderS))
+    
+    for orderB, orderS in matches:
+        print("Potential Match:", orderB, orderS)
+        tradeQuant = min(orderB.quant - orderB.filledQuant, orderS.quant - orderS.filledQuant)
+        
+        tradePrice = orderB.limit
+        trade = Trade(orderB.ticker, orderB.limit, tradeQuant, orderB, orderS, 'EXECUTED')
+        
+        orderB.filledQuant += tradeQuant
+        orderS.filledQuant += tradeQuant
+        
+        print("Trade:", trade)
+        
+        if orderB.filledQuant == orderB.quant:
+            orderB.status = 'COMPLETED'
+        if orderS.filledQuant == orderS.quant:
+            orderS.status = 'COMPLETED'
 
 # main
 
@@ -154,29 +190,17 @@ while (user == 'y'):
     print('\nAdd another ticker? ', end='')
     user = input()
 
+
 print('ticker orders to be matched: ', end='')
 ticker = input()
 
 bOrders = tickerMap[ticker]['buy']
 sOrders = tickerMap[ticker]['sell']
 
-for orderB in bOrders:
-    for orderS in sOrders:
-        if (isMatch(orderB, orderS)):
-            
-            
-        
+print('\nBEFORE:')
+printOrders(bOrders, sOrders)
 
-# bOrders = [82, 64, 40, 41, 76, 94, 61, 36, 81, 34] 
-# sOrders = [90, 61, 87, 82, 31, 68, 39, 78, 55, 94] # common 94
+match(bOrders, sOrders)
 
-# bOrdersC = bOrders
-# sOrdersC = sOrders
-
-# for x in bOrdersC:
-#     for y in sOrdersC:
-#         if x == y:
-#             bOrders.remove(x)
-#             sOrders.remove(y)
-# print(bOrders)
-# print(sOrders)
+print('\nAFTER:')
+printOrders(bOrders, sOrders)
