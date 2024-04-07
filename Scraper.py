@@ -13,8 +13,8 @@ def get_stock_price(stock_symbol):
         return 'Stock price not found'
 
 # Example usage
-stock_symbol = 'AAPL'
-print('Loading...')
-stock_price = get_stock_price(stock_symbol)
-clear()
-print(f'The stock price of {stock_symbol} is: {stock_price}')
+# stock_symbol = 'AAPL'
+# print('Loading...')
+# stock_price = get_stock_price(stock_symbol)
+# clear()
+# print(f'The stock price of {stock_symbol} is: {stock_price}')

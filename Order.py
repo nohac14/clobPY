@@ -1,19 +1,21 @@
 import Scraper
 class Order:
-    def __init__ (self, ticker, trader, side, quant, filledQuant, status):
+    def __init__ (self, ticker, trader, side, limit, quant, filledQuant, status):
         self.ticker = ticker
         self.trader = trader
         self.side = side
-        self.limit = Scraper.get_stock_price(ticker)
+        # self.limit = Scraper.get_stock_price(ticker)
+        self.limit = limit
         self.quant = quant
         self.filledQuant = filledQuant
         self.status = status
     
-    def update(self, ticker, trader, side, quant, filledQuant, status):
+    def update(self, ticker, trader, side, limit, quant, filledQuant, status):
         self.ticker = ticker
         self.trader = trader
         self.side = side
-        self.limit = Scraper.get_stock_price(ticker)
+        # self.limit = Scraper.get_stock_price(ticker)
+        self.limit = limit
         self.quant = quant
         self.filledQuant = filledQuant
         self.status = status
@@ -72,9 +74,8 @@ class Order:
         underline = '\033[4m'
         end = '\033[0m'
         print(underline + '| ticker | trader  | side | limit  | quantity | filledQty | status |' + end)
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
     
     def printAnotherOrder(self):
-        self.side = 'buy' if Order.side == True else "sell"
         print('--------------------------------------------------------------------')
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |\n' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
