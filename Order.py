@@ -74,8 +74,14 @@ class Order:
         underline = '\033[4m'
         end = '\033[0m'
         print(underline + '| ticker | trader  | side | limit  | quantity | filledQty | status |' + end)
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
     
     def printAnotherOrder(self):
+        green = '\u001b[32m'
+        red = '\u001b[31m'
+        end = '\033[0m'
         print('--------------------------------------------------------------------')
-        print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-6s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+        if self.side == 'buy':
+            print('| %-6s | %-7s | \u001b[32m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+        else:
+            print('| %-6s | %-7s | \u001b[31m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))

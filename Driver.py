@@ -77,11 +77,11 @@ def isMatchOld(order1, order2): # sort of deprecated
                 return False
             
 def isMatch(orderB, orderS):
-    if orderB.trader != orderS.trader and orderB.side != orderS.side:  # Different trader and opposite sides
-        if orderB.side == 'buy' and orderS.side == 'sell':  # Ensure correct buy/sell relationship
-            if orderS.limit <= orderB.limit:  # Check if seller's limit is acceptable to the buyer
-                return True  # Potential match
-    return False  # No match
+    if orderB.trader != orderS.trader and orderB.side != orderS.side:  
+        if orderB.side == 'buy' and orderS.side == 'sell':  
+            if priceMatch(orderS, orderB): 
+                return True  
+    return False  
             
 def priceMatch(orderS, orderB):
     if (orderS.limit == orderB.limit):
@@ -95,29 +95,29 @@ def populateLists(ticker, tickerMap): # randomly populates the order lists
     company = Ticker(ticker)
     marketPrice = Scraper.get_stock_price(ticker)
         
-    # i = 0
-    # while(i < 10):
-    #     if (i < 5):
-    #         tickerMap[ticker]['buy'].append(Order(
-    #             company.identifier, 
-    #             randint(100, 1000)+i, 
-    #             'buy', 
-    #             random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), # random limit between 10% below and above current stock price
-    #             randint(1,100), 
-    #             0, 
-    #             'OPEN'
-    #             ))
-    #     else:
-    #         tickerMap[ticker]['sell'].append(Order(
-    #             company.identifier, 
-    #             randint(100, 1000)+i, 
-    #             'sell', 
-    #             random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
-    #             randint(1,100), 
-    #             0, 
-    #             'OPEN'
-    #             ))
-    #     i+=1
+    i = 0
+    while(i < 10):
+        if (i < 5):
+            tickerMap[ticker]['buy'].append(Order(
+                company.identifier, 
+                randint(100, 1000)+i, 
+                'buy', 
+                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), # random limit between 10% below and above current stock price
+                randint(1,100), 
+                0, 
+                'OPEN'
+                ))
+        else:
+            tickerMap[ticker]['sell'].append(Order(
+                company.identifier, 
+                randint(100, 1000)+i, 
+                'sell', 
+                random.uniform(marketPrice - (marketPrice * 0.1), marketPrice + (marketPrice * 0.1)), 
+                randint(1,100), 
+                0, 
+                'OPEN'
+                ))
+        i+=1
         
     tickerMap[ticker]['buy'].append(Order(
         company.identifier,
@@ -137,10 +137,9 @@ def populateLists(ticker, tickerMap): # randomly populates the order lists
         0,
         'OPEN'
     ))
-    # tickerMap[ticker] = {'buy' : bOrders, 'sell' : sOrders}
 
 def printOrders(bOrders, sOrders):
-    print('\n| ticker | trader  | side | limit  | quantity | filledQty | status |')
+    print('\n| ticker | trader  | side | limit  | quantity | filled | status    |')
     for order in bOrders:
         order.printAnotherOrder()
     for order in sOrders:
@@ -166,7 +165,7 @@ def match(bOrders, sOrders):
                 matches.append((orderB, orderS))
     
     for orderB, orderS in matches:
-        print("Potential Match:", orderB, orderS)
+        print('Potential Match: %d & %d' % (orderB.trader, orderS.trader))
         tradeQuant = min(orderB.quant - orderB.filledQuant, orderS.quant - orderS.filledQuant)
         
         tradePrice = orderB.limit
@@ -175,7 +174,8 @@ def match(bOrders, sOrders):
         orderB.filledQuant += tradeQuant
         orderS.filledQuant += tradeQuant
         
-        print("Trade:", trade)
+        print("\nTrade:")
+        trade.printTrade()
         
         if orderB.filledQuant == orderB.quant:
             orderB.status = 'COMPLETED'
@@ -186,35 +186,37 @@ def removeCompleted(tickerMap, ticker):
     tickerMap[ticker]['buy'] = [order for order in tickerMap[ticker]['buy'] if order.status != 'COMPLETED']
     tickerMap[ticker]['sell'] = [order for order in tickerMap[ticker]['sell'] if order.status != 'COMPLETED']
 
-# main
+def test(tickerMap):
+    user = 'y'
+
+    # while (user == 'y'):
+    #     addTicker(tickerMap)
+    #     print('\nAdd another ticker? ', end='')
+    #     user = input()
+
+
+    # print('ticker orders to be matched: ', end='')
+    # ticker = input()
+
+    print('ORDER BOOK:')
+    addTicker()
+
+    ticker = 'BGC'
+
+    # bOrders = tickerMap[ticker]['buy']
+    # sOrders = tickerMap[ticker]['sell']
+
+    print('\nBEFORE:')
+    printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
+
+    match(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
+
+    print('\nAFTER:')
+    printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
+
+    print('\nREMOVE COMPLETED:')
+    removeCompleted(tickerMap, ticker)
+    printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
 
 tickerMap = {}
-user = 'y'
-
-# while (user == 'y'):
-#     addTicker(tickerMap)
-#     print('\nAdd another ticker? ', end='')
-#     user = input()
-
-
-# print('ticker orders to be matched: ', end='')
-# ticker = input()
-
-addTicker()
-
-ticker = 'BGC'
-
-# bOrders = tickerMap[ticker]['buy']
-# sOrders = tickerMap[ticker]['sell']
-
-print('\nBEFORE:')
-printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
-
-match(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
-
-print('\nAFTER:')
-printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
-
-print('\nREMOVE COMPLETED:')
-removeCompleted(tickerMap, ticker)
-printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
+test(tickerMap)
