@@ -219,4 +219,4 @@ def test(tickerMap):
     printOrders(tickerMap[ticker]['buy'], tickerMap[ticker]['sell'])
 
 tickerMap = {}
-test(tickerMap)
+# test(tickerMap)
