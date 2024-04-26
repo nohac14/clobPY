@@ -11,7 +11,7 @@ import Scraper
 def clear():
     os.system('clear')
     
-def printTest(): # sort of deprecated
+def printTest(): # deprecated
     print("username: ", end="")
     trader = Trader(input())
 
@@ -61,7 +61,7 @@ def printTest(): # sort of deprecated
     )
     order3.printAnotherOrder()
     
-def isMatchOld(order1, order2): # sort of deprecated
+def isMatchOld(order1, order2): # deprecated
     if ((order1.trader == order2.trader) or (order1.side == order2.side)):
         return False
     else:
