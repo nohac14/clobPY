@@ -1,6 +1,6 @@
 import Scraper
 class Order:
-    def __init__ (self, ticker, trader, side, limit, quant, filledQuant, status):
+    def __init__(self, ticker: str, trader: str, side: str, limit: float, quant: int, filledQuant: int, status: str) -> None:
         self.ticker = ticker
         self.trader = trader
         self.side = side
@@ -76,7 +76,7 @@ class Order:
         print(underline + '| ticker | trader  | side | limit  | quantity | filledQty | status |' + end)
         print('| %-6s | %-7s | %-4s | $%-6.2f| %-8d | %-9d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
     
-    def printAnotherOrder(self):
+    def printAnotherOrderO(self): # deprecated
         green = '\u001b[32m'
         red = '\u001b[31m'
         end = '\033[0m'
@@ -85,3 +85,17 @@ class Order:
             print('| %-6s | %-7s | \u001b[32m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
         else:
             print('| %-6s | %-7s | \u001b[31m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (self.ticker, self.trader, self.side, self.limit, self.quant, self.filledQuant, self.status))
+
+    def printAnotherOrder(self):
+        # Check if limit, quant, and filledQuant are numeric types
+        if not isinstance(self.limit, (int, float)) or not isinstance(self.quant, int) or not isinstance(self.filledQuant, int):
+            print("Error: Invalid data types in Order attributes.")
+            return
+
+        # Format the string with correct data types
+        if self.side == 'buy':
+            print('| %-6s | %-7s | \u001b[32m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (
+                self.ticker, self.trader, self.side, float(self.limit), int(self.quant), int(self.filledQuant), self.status))
+        else:
+            print('| %-6s | %-7s | \u001b[31m%-4s\033[0m | $%-6.2f| %-8d | %-6d | %-9s |' % (
+                self.ticker, self.trader, self.side, float(self.limit), int(self.quant), int(self.filledQuant), self.status))

@@ -131,7 +131,77 @@ def showTickerPage(ticker):
 
     for option in options:
         radio_button = Radiobutton(radio_frame, text=option, variable=selected_radio, value=option, command=on_radio_button_change)
-        radio_button.pack(anchor=W)  # Align radio buttons to the left (west)
+        radio_button.pack(side=LEFT)  # Align radio buttons to the left (west)
+        
+    dollarLabel = Label(radio_frame, text='$')
+    dollarLabel.pack(side=LEFT)
+    
+    limitEntry = Entry(radio_frame, width=5)
+    limitEntry.insert(0, 'limit')
+    
+    def onEntryKey(event):
+        if limitEntry.get() == 'limit':
+            limitEntry.delete(0, END)  # Clear placeholder text when user starts typing
+
+    def onEntryLeave(event):
+        if not limitEntry.get():
+            limitEntry.insert(0, 'limit')  # Restore placeholder text if Entry widget is left empty
+
+    def onReturn(event):
+        showTickerPage(limitEntry.get())  # Pass the text from the Entry widget to showTickerPage
+
+    limitEntry.bind("<Key>", onEntryKey)
+    limitEntry.bind("<FocusOut>", onEntryLeave)
+    limitEntry.bind('<Return>', onReturn)
+
+    limitEntry.pack(side=LEFT, fill=X)
+    
+    quantEntry = Entry(radio_frame, width=6)
+    quantEntry.insert(0, 'quantity')
+    
+    def onEntryKey(event):
+        if quantEntry.get() == 'quantity':
+            quantEntry.delete(0, END)  # Clear placeholder text when user starts typing
+
+    def onEntryLeave(event):
+        if not quantEntry.get():
+            quantEntry.insert(0, 'quantity')  # Restore placeholder text if Entry widget is left empty
+
+    def onReturn(event):
+        showTickerPage(quantEntry.get())  # Pass the text from the Entry widget to showTickerPage
+
+    quantEntry.bind("<Key>", onEntryKey)
+    quantEntry.bind("<FocusOut>", onEntryLeave)
+    quantEntry.bind('<Return>', onReturn)
+    
+    quantEntry.pack(side=LEFT, fill=X)
+    
+    
+    searchFrame = Frame(radio_frame)
+    searchFrame.pack(padx=10, pady=10)  # Pack with padding
+
+    searchLabel = Label(searchFrame, text='Search', fg='#87CEEB')
+    searchLabel.pack()  # Pack label inside the frame
+
+    searchEntry = Entry(searchFrame, width=5)
+    searchEntry.insert(0, 'ex. BGC')
+
+    def onEntryKey(event):
+        if searchEntry.get() == 'ex. BGC':
+            searchEntry.delete(0, END)  # Clear placeholder text when user starts typing
+
+    def onEntryLeave(event):
+        if not searchEntry.get():
+            searchEntry.insert(0, 'ex. BGC')  # Restore placeholder text if Entry widget is left empty
+
+    def onReturn(event):
+        showTickerPage(searchEntry.get())  # Pass the text from the Entry widget to showTickerPage
+
+    searchEntry.bind("<Key>", onEntryKey)
+    searchEntry.bind("<FocusOut>", onEntryLeave)
+    searchEntry.bind('<Return>', onReturn)
+
+    searchEntry.pack(side=LEFT, fill=X, padx=5)
 
     
     

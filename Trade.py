@@ -53,5 +53,5 @@ class Trade:
     def printTrade(self):
         underline = '\033[4m'
         end = '\033[0m'
-        print(underline + '| ticker | price | quantity | buyer | seller | status   |' + end)
-        print('| %-6s | $%-5.2f| %-8d | %-5d | %-6d | %-8s |' % (self.ticker, self.price, self.quant, self.buyOrder.trader, self.sellOrder.trader, self.status))
+        print(underline + '| ticker |  price | quantity | buyer | seller | status   |' + end)
+        print('| %-6s | $%-5.2f| %-8d | %-5d | %-6d | %-8s |' % (self.ticker, self.price, self.quant, int(self.buyOrder.trader), int(self.sellOrder.trader), self.status))
