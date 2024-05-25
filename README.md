@@ -52,7 +52,7 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 1. Clone the repository:
    git clone https://github.com/yourusername/clobPY.git
-   cd clob-trading-app
+   cd clobPY
 
 2. Install the required packages:
    pip install yahooquery
