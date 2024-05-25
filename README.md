@@ -66,12 +66,6 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 2. Interact with the application through the GUI.
 
-## Example Usage
-
-- Open the application.
-- View stock prices and place orders through the GUI.
-- Use the search bar to find specific stocks and view their order book.
-
 ## License
 
 This project is licensed under the MIT License.
