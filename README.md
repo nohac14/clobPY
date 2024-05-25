@@ -64,10 +64,6 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 2. Interact with the application through the GUI.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Acknowledgements
 
 - [YahooQuery](https://github.com/dpguthrie/yahooquery) for fetching stock prices.
