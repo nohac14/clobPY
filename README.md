@@ -51,7 +51,7 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 ### Installation
 
 1. Clone the repository:
-   git clone https://github.com/yourusername/clob-trading-app.git
+   git clone https://github.com/yourusername/clobPY.git
    cd clob-trading-app
 
 2. Install the required packages:
