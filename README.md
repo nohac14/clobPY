@@ -44,7 +44,7 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 ### Prerequisites
 
-- Python 3.x
+- Python 3.x (any minor version within the 3 series is acceptable)
 - Tkinter
 - YahooQuery
 
