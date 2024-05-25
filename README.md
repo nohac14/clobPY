@@ -39,8 +39,6 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 - **showClobPage**: Displays the main page with stock buttons and a search bar.
 - **showTickerPage**: Displays the ticker page with order entry, search, and terminal-like output.
-- **removeAllWidgets**: Removes all child widgets from a given parent widget.
-- **display_order_book**: Updates the terminal-like widget to show the current order book for the selected ticker.
 
 ## Getting Started
 
