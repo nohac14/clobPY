@@ -74,13 +74,3 @@ This project is licensed under the MIT License.
 
 - [YahooQuery](https://github.com/dpguthrie/yahooquery) for fetching stock prices.
 - Tkinter for providing the GUI framework.
-
-### Explanation
-
-- **Project Structure**: Describes the overall structure of the project and the purpose of each file.
-- **Backend (Driver.py)**: Details the responsibilities of the backend and lists key functions with brief descriptions.
-- **Frontend (UI.py)**: Describes the components of the frontend and lists key components with brief descriptions.
-- **Getting Started**: Provides instructions on prerequisites, installation, and how to run the application.
-- **Example Usage**: Briefly explains how to use the application.
-- **License**: Mentions the project license.
-- **Acknowledgements**: Credits any third-party tools or libraries used in the project.
