@@ -51,18 +51,21 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 ### Installation
 
 1. Clone the repository:
+   ``` bash
    git clone https://github.com/yourusername/clobPY.git
    cd clobPY
-
-2. Install the required packages:
+   ```
+3. Install the required packages:
+   ``` bash
    pip install yahooquery
-
+   ```
 ### Running the Application
 
 1. Start the application by running the frontend script:
+   ``` bash
    python UI.py
-
-2. Interact with the application through the GUI.
+   ```
+3. Interact with the application through the GUI.
 
 ## Acknowledgements
 
