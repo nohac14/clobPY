@@ -25,7 +25,6 @@ The backend is responsible for:
 - **matchBuy**: Matches a buy order with sell orders.
 - **matchSell**: Matches a sell order with buy orders.
 - **addOrder**: Adds a new order to the ticker map and matches it against existing orders.
-- **printOrders**: Prints the buy and sell orders in a formatted table.
 
 ## Frontend (UI.py)
 
