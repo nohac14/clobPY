@@ -252,11 +252,11 @@ def sortOrders(ticker, side):
     :param ticker: The ticker symbol
     :param side: The side of the order ('buy' or 'sell')
     """
-    # if side == 'sell':
-    #     tickerMap[ticker][side].sort(key=lambda order: order.limit)
-    # else:
-    #     tickerMap[ticker][side].sort(key=lambda order: order.limit, reverse=True)
-    tickerMap[ticker][side].sort(key=lambda order: order.limit)
+    if side == 'sell':
+        tickerMap[ticker][side].sort(key=lambda order: order.limit)
+    else:
+        tickerMap[ticker][side].sort(key=lambda order: order.limit, reverse=True)
+    # tickerMap[ticker][side].sort(key=lambda order: order.limit)
         
 def uInputOrder(tickerMap, ticker, trader):
     """
