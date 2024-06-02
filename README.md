@@ -18,10 +18,8 @@ The backend is responsible for:
 
 ### Key Functions
 
-- **initializeTicker**: Initializes a ticker in the ticker map.
-- **populateTickerMap**: Populates the ticker map with initial data for each ticker.
+- **populateTickerMap**: Populates the ticker dictionary with initial data for each ticker.
 - **populateLists**: Populates the buy and sell lists for a given ticker with initial orders.
-- **isMatch**: Checks if a buy order matches a sell order.
 - **matchBuy**: Matches a buy order with sell orders.
 - **matchSell**: Matches a sell order with buy orders.
 - **addOrder**: Adds a new order to the ticker map and matches it against existing orders.
