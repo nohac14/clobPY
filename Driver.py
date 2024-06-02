@@ -256,6 +256,7 @@ def sortOrders(ticker, side):
         tickerMap[ticker][side].sort(key=lambda order: order.limit)
     else:
         tickerMap[ticker][side].sort(key=lambda order: order.limit, reverse=True)
+    # tickerMap[ticker][side].sort(key=lambda order: order.limit)
         
 def uInputOrder(tickerMap, ticker, trader):
     """
