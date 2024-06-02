@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
 from random import randint
 from Driver import *
 
@@ -79,7 +80,7 @@ def showClobPage():
         """
         Trigger a search and display the ticker page when the user presses Enter.
         """
-        searchTicker = searchEntry.get()
+        searchTicker = searchEntry.get().upper()
         showTickerPage(searchTicker, user_id)
 
     searchEntry.bind("<Key>", onEntryKey)
@@ -119,95 +120,64 @@ def showTickerPage(ticker, user_id):
     # Update the GUI to show the loading label
     root.update_idletasks()
 
-    # Radio buttons for Buy/Sell
-    def on_radio_button_change():
-        """
-        Update the selected option when a radio button is changed.
-        """
-        selected_option.set(selected_radio.get())
+    # Entry fields and buttons for Buy/Sell
+    entry_frame = Frame(tickerPage)
+    entry_frame.grid(row=2, column=0, columnspan=2, pady=5)
 
-    selected_option = StringVar()
-    radio_frame = Frame(tickerPage)
-    radio_frame.grid(row=2, column=0, columnspan=2, pady=5)
+    dollarLabel = Label(entry_frame, text='$')
+    dollarLabel.grid(row=0, column=0, padx=0)
 
-    options = ['Buy', 'Sell']
-    selected_radio = StringVar()
-    selected_radio.set(options[0])
-
-    for i, option in enumerate(options):
-        radio_button = Radiobutton(radio_frame, text=option, variable=selected_radio, value=option, command=on_radio_button_change)
-        radio_button.grid(row=0, column=i, padx=5)
-        
-    dollarLabel = Label(radio_frame, text='$')
-    dollarLabel.grid(row=0, column=2, padx=5)
-    
-    limitEntry = Entry(radio_frame, width=5)
+    limitEntry = Entry(entry_frame, width=5)
     limitEntry.insert(0, 'limit')
     
-    # Event handlers for limit entry
     def onEntryKey(event):
-        """
-        Clear the placeholder text when the user starts typing.
-        """
         if limitEntry.get() == 'limit':
             limitEntry.delete(0, END)
 
     def onEntryLeave(event):
-        """
-        Restore the placeholder text if the entry is empty.
-        """
         if not limitEntry.get():
             limitEntry.insert(0, 'limit')
 
-    def onReturn(event):
-        """
-        Add the order and update the order book when the user presses Enter.
-        """
-        limit = float(limitEntry.get())
-        quant = int(quantEntry.get())
-        side = selected_radio.get().lower()
-        addOrder(ticker, user_id, side, limit, quant)
-        display_order_book()
-
     limitEntry.bind("<Key>", onEntryKey)
     limitEntry.bind("<FocusOut>", onEntryLeave)
-    limitEntry.bind('<Return>', onReturn)
-    limitEntry.grid(row=0, column=3, padx=5, sticky='w')
+    limitEntry.grid(row=0, column=1, padx=5, sticky='w')
     
-    quantEntry = Entry(radio_frame, width=6)
+    quantEntry = Entry(entry_frame, width=6)
     quantEntry.insert(0, 'quantity')
     
-    # Event handlers for quantity entry
     def onEntryKey(event):
-        """
-        Clear the placeholder text when the user starts typing.
-        """
         if quantEntry.get() == 'quantity':
             quantEntry.delete(0, END)
 
     def onEntryLeave(event):
-        """
-        Restore the placeholder text if the entry is empty.
-        """
         if not quantEntry.get():
             quantEntry.insert(0, 'quantity')
 
-    def onReturn(event):
-        """
-        Add the order and update the order book when the user presses Enter.
-        """
-        limit = float(limitEntry.get())
-        quant = int(quantEntry.get())
-        side = selected_radio.get().lower()
-        addOrder(ticker, user_id, side, limit, quant)
-        display_order_book()
-
     quantEntry.bind("<Key>", onEntryKey)
     quantEntry.bind("<FocusOut>", onEntryLeave)
-    quantEntry.bind('<Return>', onReturn)
-    quantEntry.grid(row=0, column=4, padx=5, sticky='w')
+    quantEntry.grid(row=0, column=2, padx=5, sticky='w')
+
+    def onBuy():
+        limit = float(limitEntry.get())
+        quant = int(quantEntry.get())
+        if messagebox.askyesno("Confirm Order", "Are you sure you want to place this Buy order?"):
+            addOrder(ticker, user_id, 'buy', limit, quant)
+            display_order_book()
+
+    def onSell():
+        limit = float(limitEntry.get())
+        quant = int(quantEntry.get())
+        if messagebox.askyesno("Confirm Order", "Are you sure you want to place this Sell order?"):
+            addOrder(ticker, user_id, 'sell', limit, quant)
+            display_order_book()
+
+    buyButton = Button(entry_frame, text="Buy", command=onBuy, fg='#008000')
+    buyButton.grid(row=0, column=3, padx=5)
+
+    sellButton = Button(entry_frame, text="Sell", command=onSell, fg='#FF0000')
+    sellButton.grid(row=0, column=4, padx=5)
     
-    searchFrame = Frame(radio_frame)
+    searchFrame = Frame(entry_frame)
     searchFrame.grid(row=0, column=5, padx=10, pady=5, sticky='w')
 
     searchLabel = Label(searchFrame, text='Search', fg='#87CEEB')
@@ -216,26 +186,16 @@ def showTickerPage(ticker, user_id):
     searchEntry = Entry(searchFrame, width=10)
     searchEntry.insert(0, 'ex. BGC')
 
-    # Event handlers for search entry
     def onEntryKey(event):
-        """
-        Clear the placeholder text when the user starts typing.
-        """
         if searchEntry.get() == 'ex. BGC':
             searchEntry.delete(0, END)
 
     def onEntryLeave(event):
-        """
-        Restore the placeholder text if the entry is empty.
-        """
         if not searchEntry.get():
             searchEntry.insert(0, 'ex. BGC')
 
     def onReturn(event):
-        """
-        Trigger a search and display the ticker page when the user presses Enter.
-        """
-        ticker = searchEntry.get()
+        ticker = searchEntry.get().upper()
         removeAllWidgets(tickerPage)
         showTickerPage(ticker, user_id)
 
@@ -263,13 +223,11 @@ def showTickerPage(ticker, user_id):
 
     # Display order book in terminal
     def display_order_book():
-        """
-        Display the order book in the terminal-like widget.
-        """
         terminal.configure(state='normal')
         terminal.delete('1.0', END)
-        header = '| ticker | trader  | side | limit   | quantity | filled | status    |\n'
-        terminal.insert('end', header, 'header')
+        header_buy = '______________\n| BUY ORDERS |\n| ticker | trader  | side | limit   | quantity | filled | status    |\n'
+        header_sell = '_______________\n| SELL ORDERS |\n| ticker | trader  | side | limit   | quantity | filled | status    |\n'
+        terminal.insert('end', header_buy, 'header')
         if ticker in tickerMap:
             orders = tickerMap[ticker]
             for order in orders['buy']:
@@ -278,6 +236,7 @@ def showTickerPage(ticker, user_id):
                 terminal.insert('end', 'buy ', 'buy ')
                 formatted_order = f" | ${order.limit:<6.2f} | {order.quant:<8} | {order.filledQuant:<6} | {order.status:<9} |\n"
                 terminal.insert('end', formatted_order)
+            terminal.insert('end', header_sell, 'header')
             for order in orders['sell']:
                 formatted_order = f"| {order.ticker:<6} | {order.trader:<7} | "
                 terminal.insert('end', formatted_order)
