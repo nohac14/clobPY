@@ -225,8 +225,8 @@ def showTickerPage(ticker, user_id):
     def display_order_book():
         terminal.configure(state='normal')
         terminal.delete('1.0', END)
-        header_buy = '______________\n| BUY ORDERS |\n| ticker | trader  | side | limit   | quantity | filled | status    |\n'
-        header_sell = '_______________\n| SELL ORDERS |\n| ticker | trader  | side | limit   | quantity | filled | status    |\n'
+        header_buy = '______________\n| BUY ORDERS |\n| ticker | trader  | side | limit      | quantity | filled | status    |\n'
+        header_sell = '_______________\n| SELL ORDERS |\n| ticker | trader  | side | limit      | quantity | filled | status    |\n'
         terminal.insert('end', header_buy, 'header')
         if ticker in tickerMap:
             orders = tickerMap[ticker]
@@ -234,14 +234,14 @@ def showTickerPage(ticker, user_id):
                 formatted_order = f"| {order.ticker:<6} | {order.trader:<7} | "
                 terminal.insert('end', formatted_order)
                 terminal.insert('end', 'buy ', 'buy ')
-                formatted_order = f" | ${order.limit:<6.2f} | {order.quant:<8} | {order.filledQuant:<6} | {order.status:<9} |\n"
+                formatted_order = f" | ${order.limit:<9.2f} | {order.quant:<8} | {order.filledQuant:<6} | {order.status:<9} |\n"
                 terminal.insert('end', formatted_order)
             terminal.insert('end', header_sell, 'header')
             for order in orders['sell']:
                 formatted_order = f"| {order.ticker:<6} | {order.trader:<7} | "
                 terminal.insert('end', formatted_order)
                 terminal.insert('end', 'sell', 'sell')
-                formatted_order = f" | ${order.limit:<6.2f} | {order.quant:<8} | {order.filledQuant:<6} | {order.status:<9} |\n"
+                formatted_order = f" | ${order.limit:<9.2f} | {order.quant:<8} | {order.filledQuant:<6} | {order.status:<9} |\n"
                 terminal.insert('end', formatted_order)
         else:
             terminal.insert('end', "No orders found for this ticker.\n")
