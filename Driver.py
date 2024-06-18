@@ -336,4 +336,3 @@ def runInTerminal(tickerMap):
     userOrder(tickerMap, trader)
         
 tickerMap = {}
-runInTerminal(tickerMap)
