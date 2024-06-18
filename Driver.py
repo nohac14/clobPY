@@ -336,3 +336,6 @@ def runInTerminal(tickerMap):
     userOrder(tickerMap, trader)
         
 tickerMap = {}
+
+if __name__ == "__main__":
+    runInTerminal(tickerMap)
