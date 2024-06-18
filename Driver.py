@@ -313,6 +313,12 @@ def userOrder(tickerMap, trader):
 
         if user == 'y':
             uInputOrder(tickerMap, ticker, trader)
+            print('Quit (y/n)?: ', end='')
+            isQuit = input()
+            if isQuit == 'n':
+                userOrder(tickerMap, trader)
+            else:
+                break
         else:
             print('Quit (y/n)?: ', end='')
             isQuit = input()
@@ -330,3 +336,4 @@ def runInTerminal(tickerMap):
     userOrder(tickerMap, trader)
         
 tickerMap = {}
+runInTerminal(tickerMap)
