@@ -49,7 +49,7 @@ The frontend provides a user-friendly GUI for interacting with the order book. I
 
 1. Clone the repository:
    ``` bash
-   git clone https://github.com/yourusername/clobPY.git
+   git clone https://github.com/nohac14/clobPY.git
    ```
    ``` bash
    cd clobPY
